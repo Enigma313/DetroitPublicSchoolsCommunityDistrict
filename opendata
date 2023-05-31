@@ -1,0 +1,259 @@
+--Combining four datasets, sorting by School Name Year and filtering by Gender vs Attendance Rate
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE ReportCategory = "Gender" 
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance` 
+WHERE ReportCategory = "Gender"
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE ReportCategory = "Gender"
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE ReportCategory = "Gender"
+ORDER BY BuildingName, SchoolYear
+
+
+--Attendance Rate Female vs Male per year by School Name
+--Different Format as above with Removal of Gender as standalone category
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance`
+Group By SchoolYear, BuildingName 
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+GROUP BY SchoolYear, BuildingName
+ORder BY BuildingName, SchoolYear
+
+
+--Finding English & Non-English Learners vs Attendace Rate 
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE ReportCategory = "English Learners" 
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance` 
+WHERE ReportCategory = "English Learners"
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE ReportCategory = "English Learners"
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE ReportCategory = "English Learners"
+ORDER BY BuildingName, SchoolYear
+
+--Attendance Rate organized by Ethnicity & Gender, Grouped by Year and School
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Asian" THEN AttendanceRate END) AS AsianAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Hispanic" THEN AttendanceRate END) AS HispanicAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "American Indian or Alaska Native" THEN AttendanceRate END) AS AmericanIndianAlaskaAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Native Hawaiian or Other Pacific Islander" THEN AttendanceRate END) AS HawaiianPacificIslanderAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Black, not of Hispanic Origin" THEN AttendanceRate END) AS BlackAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "White, not of Hispanic Origin" THEN AttendanceRate END) AS WhiteAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Two or More Races" THEN AttendanceRate END) AS TwoOrMoreRacesAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Asian" THEN AttendanceRate END) AS AsianAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Hispanic" THEN AttendanceRate END) AS HispanicAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "American Indian or Alaska Native" THEN AttendanceRate END) AS AmericanIndianAlaskaAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Native Hawaiian or Other Pacific Islander" THEN AttendanceRate END) AS HawaiianPacificIslanderAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Black, not of Hispanic Origin" THEN AttendanceRate END) AS BlackAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "White, not of Hispanic Origin" THEN AttendanceRate END) AS WhiteAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Two or More Races" THEN AttendanceRate END) AS TwoOrMoreRacesAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance`
+Group By SchoolYear, BuildingName 
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Asian" THEN AttendanceRate END) AS AsianAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Hispanic" THEN AttendanceRate END) AS HispanicAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "American Indian or Alaska Native" THEN AttendanceRate END) AS AmericanIndianAlaskaAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Native Hawaiian or Other Pacific Islander" THEN AttendanceRate END) AS HawaiianPacificIslanderAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Black, not of Hispanic Origin" THEN AttendanceRate END) AS BlackAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "White, not of Hispanic Origin" THEN AttendanceRate END) AS WhiteAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Two or More Races" THEN AttendanceRate END) AS TwoOrMoreRacesAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Female" THEN AttendanceRate END) AS FemaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Male" THEN AttendanceRate END) AS MaleAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Asian" THEN AttendanceRate END) AS AsianAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Hispanic" THEN AttendanceRate END) AS HispanicAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "American Indian or Alaska Native" THEN AttendanceRate END) AS AmericanIndianAlaskaAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Native Hawaiian or Other Pacific Islander" THEN AttendanceRate END) AS HawaiianPacificIslanderAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Black, not of Hispanic Origin" THEN AttendanceRate END) AS BlackAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "White, not of Hispanic Origin" THEN AttendanceRate END) AS WhiteAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Two or More Races" THEN AttendanceRate END) AS TwoOrMoreRacesAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+GROUP BY SchoolYear, BuildingName
+ORder BY BuildingName, SchoolYear
+
+--Finding Homeless vs Attendance Rate 
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Not Homeless" THEN AttendanceRate END) AS NotHomelessAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Homeless" THEN AttendanceRate END) AS HomelessAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Not Homeless" THEN AttendanceRate END) AS NotHomelessAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Homeless" THEN AttendanceRate END) AS HomelessAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+Group By SchoolYear, BuildingName 
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Not Homeless" THEN AttendanceRate END) AS NotHomelessAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Homeless" THEN AttendanceRate END) AS HomelessAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Not Homeless" THEN AttendanceRate END) AS NotHomelessAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Homeless" THEN AttendanceRate END) AS HomelessAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+GROUP BY SchoolYear, BuildingName
+ORder BY BuildingName, SchoolYear
+
+
+
+--Categorizing Students with Disabilities Attendance Rate with IEP vs without IEP 
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Students with Disabilities"  THEN AttendanceRate END) AS NoIEPAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Students without IEP" THEN AttendanceRate END) AS IEPAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Students with Disabilities"  THEN AttendanceRate END) AS NoIEPAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Students without IEP" THEN AttendanceRate END) AS IEPAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+Group By SchoolYear, BuildingName 
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Students with Disabilities"  THEN AttendanceRate END) AS NoIEPAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Students without IEP" THEN AttendanceRate END) AS IEPAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+Group By SchoolYear, BuildingName
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "Students with Disabilities"  THEN AttendanceRate END) AS NoIEPAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "Students without IEP" THEN AttendanceRate END) AS IEPAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE AttendanceRate != "*" AND BuildingName != "All Buildings" 
+GROUP BY SchoolYear, BuildingName
+ORder BY BuildingName, SchoolYear
+
+
+--Highest and Lowest Attendance Rates by Year
+SELECT SchoolYear, MAX(AttendanceRate) as HighestAttendanceRate, MIN(AttendanceRate) as LowestAttedanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE ReportCategory = "Gender" AND AttendanceRate != "*" AND BuildingName != "All Buildings" AND ReportSubGroup = "Female" 
+Group By SchoolYear
+UNION ALL
+SELECT SchoolYear, MAX(AttendanceRate) as HighestAttendanceRate, MIN(AttendanceRate) as LowestAttedanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance` 
+WHERE ReportCategory = "Gender" AND AttendanceRate != "*" AND BuildingName != "All Buildings" AND ReportSubGroup = "Female" 
+Group By SchoolYear
+UNION ALL
+SELECT SchoolYear, MAX(AttendanceRate) as HighestAttendanceRate, MIN(AttendanceRate) as LowestAttedanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE ReportCategory = "Gender" AND AttendanceRate != "*" AND BuildingName != "All Buildings" AND ReportSubGroup = "Female" 
+Group By SchoolYear
+UNION ALL
+SELECT SchoolYear, MAX(AttendanceRate) as HighestAttendanceRate, MIN(AttendanceRate) as LowestAttedanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE ReportCategory = "Gender" AND AttendanceRate != "*" AND BuildingName != "All Buildings" AND ReportSubGroup = "Female" 
+Group By SchoolYear
+Order by SchoolYear
+
+--Descending Attendance Rate of All Schools ordered by Year
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE ReportCategory = "Gender" 
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance` 
+WHERE ReportCategory = "Gender"
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE ReportCategory = "Gender"
+UNION ALL
+SELECT SchoolYear, BuildingName, ReportCategory, ReportSubGroup, AttendanceRate
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE ReportCategory = "Gender"
+ORDER BY SchoolYear, AttendanceRate DESC
+
+--HighSchool Attendance Rates
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "09" THEN AttendanceRate END) AS FreshmanAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "10" THEN AttendanceRate END) AS SophomoreAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "11" THEN AttendanceRate END) AS JuniorAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "12" THEN AttendanceRate END) AS SeniorAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2015_2016_attendance_rate`
+WHERE BuildingName != "All Buildings"
+Group By BuildingName, SchoolYear 
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "09" THEN AttendanceRate END) AS FreshmanAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "10" THEN AttendanceRate END) AS SophomoreAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "11" THEN AttendanceRate END) AS JuniorAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "12" THEN AttendanceRate END) AS SeniorAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2016_2017_attendance`
+WHERE BuildingName != "All Buildings"
+Group By BuildingName, SchoolYear 
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "09" THEN AttendanceRate END) AS FreshmanAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "10" THEN AttendanceRate END) AS SophomoreAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "11" THEN AttendanceRate END) AS JuniorAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "12" THEN AttendanceRate END) AS SeniorAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2017-2018_attendance`
+WHERE BuildingName != "All Buildings"
+Group By BuildingName, SchoolYear  
+UNION ALL
+SELECT SchoolYear, BuildingName,
+  MAX(CASE WHEN ReportSubGroup = "09" THEN AttendanceRate END) AS FreshmanAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "10" THEN AttendanceRate END) AS SophomoreAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "11" THEN AttendanceRate END) AS JuniorAttendanceRate,
+  MAX(CASE WHEN ReportSubGroup = "12" THEN AttendanceRate END) AS SeniorAttendanceRate,
+FROM `detroit-public-schools.dps_attendance_rate_2015_2016.2018-2019_attendance`
+WHERE BuildingName != "All Buildings"
+Group By BuildingName, SchoolYear  
+ORder BY BuildingName, SchoolYear
